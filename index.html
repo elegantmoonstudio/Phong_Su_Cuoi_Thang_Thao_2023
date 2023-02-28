@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="moonstudio.ico" type="image/x-icon"><link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Phóng Sự Cưới Thắng Thảo 2023</title>
+</head>
+<body>
+    <div class="container">
+        <h2 class="title">Phóng Sự Cưới Thắng Thảo 2023</h2>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="btn-prev-top page-item">
+                    <a class="page-link" href="#" id="-1">Trang trước</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#" id="page-info-top">1</a>
+                </li>
+                <li class="btn-next-top page-item">
+                    <a class="page-link" href="#" id="4">Trang sau</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="photo_gallery">
+            <div class="column" id="column_0"></div>
+            <div class="column" id="column_1"></div>
+            <div class="column" id="column_2"></div>
+        </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="btn-prev-bottom page-item">
+                    <a class="page-link" href="#" id="-1">Trang trước</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#" id="page-info-bottom">1</a>
+                </li>
+                <li class="btn-next-bottom page-item">
+                    <a class="page-link" href="#" id="4">Trang sau</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <script>
+        var dir1 = "images_0/";
+        var dir2 = "images_1/";
+        var dir3 = "images_2/";
+        var index = 0
+        let per_page = 20;
+        let cur_page = 1;
+        let start = 1;
+        let end = per_page;
+        let total_pages = 23;
+        var t_image = (dir, filename) => `
+            <div class="photo">                
+                <img src="${dir + filename}" alt="" loading="lazy">
+                <div class="subphoto">
+                    <h5 class='filename'>${filename}</h5>
+                    <a href="${dir + filename}" download>
+                        <i class="fas fa-cloud-download-alt"></i>
+                    </a>
+                </div>
+            </div>
+        `
+        async function get_image(dir, filename) {
+            let myObject = await fetch(dir + filename);
+            if (myObject.status != 404) {
+                document.getElementById('column_0').innerHTML += t_image(dir, filename)
+            }
+        }
+        async function getMultipleText(start, end) {
+            for (var i = start; i < end; i++) {
+                var filename = "img%20(" + i +").jpg"
+                var dir = dir1
+                if (i > 800){
+                    dir = dir2
+                }
+                if (i > 1600){
+                    dir = dir3
+                }
+                await get_image(dir, "img (" + i + ").jpg");
+            }
+        }
+        const btn_next_top = document.querySelector('.btn-next-top');
+        const btn_prev_top = document.querySelector('.btn-prev-top');
+        btn_next_top.addEventListener('click', () => {
+            cur_page++;
+            if (cur_page > total_pages) {
+                cur_page = total_pages
+            }
+            start = (cur_page - 1) * per_page;
+            if (start < 1){
+                start = 1
+            }
+            end = cur_page * per_page;
+            document.getElementById('page-info-top').innerHTML = cur_page;
+            document.getElementById('page-info-bottom').innerHTML = cur_page;
+            document.getElementById('column_0').innerHTML = '';
+            getMultipleText(start, end).then(() => {})
+        })
+        btn_prev_top.addEventListener('click', () => {
+            cur_page--;
+            if (cur_page < 1) {
+                cur_page = 1
+            }
+            start = (cur_page - 1) * per_page;
+            if (start < 1){
+                start = 1
+            }
+            end = cur_page * per_page;
+            temp_content = ''
+            document.getElementById('page-info-top').innerHTML = cur_page;
+            document.getElementById('page-info-bottom').innerHTML = cur_page;
+            document.getElementById('column_0').innerHTML = '';
+            getMultipleText(start, end).then(() => {})
+        })
+        const btn_next_bottom = document.querySelector('.btn-next-bottom');
+        const btn_prev_bottom = document.querySelector('.btn-prev-bottom');
+        btn_next_bottom.addEventListener('click', () => {
+            cur_page++;
+            if (cur_page > total_pages) {
+                cur_page = total_pages
+            }
+            start = (cur_page - 1) * per_page;
+            if (start < 1){
+                start = 1
+            }
+            end = cur_page * per_page;
+            document.getElementById('page-info-top').innerHTML = cur_page;
+            document.getElementById('page-info-bottom').innerHTML = cur_page;
+            document.getElementById('column_0').innerHTML = '';
+            getMultipleText(start, end).then(() => {})
+        })
+        btn_prev_bottom.addEventListener('click', () => {
+            cur_page--;
+            if (cur_page < 1) {
+                cur_page = 1
+            }
+            start = (cur_page - 1) * per_page;
+            if (start < 1){
+                start = 1
+            }
+            end = cur_page * per_page;
+            temp_content = ''
+            document.getElementById('page-info-top').innerHTML = cur_page;
+            document.getElementById('page-info-bottom').innerHTML = cur_page;
+            document.getElementById('column_0').innerHTML = '';
+            getMultipleText(start, end).then(() => {})
+        })
+        document.getElementById('column_0').innerHTML = ''
+        getMultipleText(start, per_page).then(() => {})
+    </script>
+</body>
+</html>
